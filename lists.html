@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Lists</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #fff0f5, #e093b2);
+      color: #d63384;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .lists-container {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(214,51,132,0.10);
+      padding: 36px 24px 32px 24px;
+      max-width: 520px;
+      margin: 48px 16px 32px 16px;
+      text-align: center;
+      animation: fadeIn 1.2s;
+      width: 100%;
+    }
+    h2 {
+      color: #d63384;
+      margin-bottom: 18px;
+      font-size: 2em;
+    }
+    .list-section {
+      margin-bottom: 32px;
+      text-align: left;
+    }
+    .list-section:last-child {
+      margin-bottom: 0;
+    }
+    .list-section h3 {
+      color: #b0256a;
+      margin-bottom: 10px;
+      font-size: 1.2em;
+      letter-spacing: 0.5px;
+    }
+    ul.editable-list {
+      list-style: disc inside;
+      padding-left: 0;
+      margin: 0 0 10px 0;
+      min-height: 32px;
+    }
+    ul.editable-list li {
+      margin-bottom: 6px;
+      color: #444;
+      font-size: 1.08em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    ul.editable-list li input[type="text"] {
+      font-size: 1em;
+      border: 1px solid #d63384;
+      border-radius: 6px;
+      padding: 4px 8px;
+      outline: none;
+      width: 70%;
+      margin-right: 4px;
+    }
+    .add-item-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .add-item-row input[type="text"] {
+      flex: 1;
+      border: 1px solid #d63384;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 1em;
+      outline: none;
+    }
+    .add-item-row button, .remove-btn {
+      background: #d63384;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      padding: 6px 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+      outline: none;
+    }
+    .add-item-row button:hover, .remove-btn:hover {
+      background: #b0256a;
+    }
+    .remove-btn {
+      padding: 2px 10px;
+      font-size: 0.95em;
+      margin-left: 2px;
+    }
+    .back-btn {
+      margin-top: 24px;
+      background: #d63384;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1em;
+      padding: 12px 32px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 12px rgba(214,51,132,0.13);
+      transition: background 0.2s;
+      outline: none;
+    }
+    .back-btn:hover {
+      background: #b0256a;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <div class="lists-container">
+    <h2>Our Lists</h2>
+    <div class="list-section" id="movies-section">
+      <h3>🎬 Movies</h3>
+      <div class="add-item-row">
+        <input type="text" id="movieInput" placeholder="Add a movie..." />
+        <button onclick="addItem('movies')">Add</button>
+      </div>
+      <ul class="editable-list" id="moviesList"></ul>
+    </div>
+    <div class="list-section" id="shows-section">
+      <h3>📺 Shows</h3>
+      <div class="add-item-row">
+        <input type="text" id="showInput" placeholder="Add a show..." />
+        <button onclick="addItem('shows')">Add</button>
+      </div>
+      <ul class="editable-list" id="showsList"></ul>
+    </div>
+    <div class="list-section" id="books-section">
+      <h3>📚 Books</h3>
+      <div class="add-item-row">
+        <input type="text" id="bookInput" placeholder="Add a book..." />
+        <button onclick="addItem('books')">Add</button>
+      </div>
+      <ul class="editable-list" id="booksList"></ul>
+    </div>
+    <button class="back-btn" onclick="window.location.href='index.html'">Back to Home</button>
+  </div>
+  <script>
+    // Simple localStorage keys
+    const keys = {
+      movies: 'ourlist_movies',
+      shows: 'ourlist_shows',
+      books: 'ourlist_books'
+    };
+
+    function getList(type) {
+      try {
+        return JSON.parse(localStorage.getItem(keys[type])) || [];
+      } catch {
+        return [];
+      }
+    }
+    function saveList(type, arr) {
+      localStorage.setItem(keys[type], JSON.stringify(arr));
+    }
+    function renderList(type) {
+      const ul = document.getElementById(type + 'List');
+      ul.innerHTML = '';
+      const arr = getList(type);
+      arr.forEach((item, idx) => {
+        const li = document.createElement('li');
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = item;
+        input.onchange = () => editItem(type, idx, input.value);
+        input.onkeydown = (e) => {
+          if (e.key === 'Enter') input.blur();
+        };
+        li.appendChild(input);
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = '✕';
+        removeBtn.className = 'remove-btn';
+        removeBtn.onclick = () => removeItem(type, idx);
+        li.appendChild(removeBtn);
+        ul.appendChild(li);
+      });
+    }
+    function addItem(type) {
+      const input = document.getElementById(type + 'Input');
+      const value = input.value.trim();
+      if (!value) return;
+      const arr = getList(type);
+      arr.push(value);
+      saveList(type, arr);
+      input.value = '';
+      renderList(type);
+    }
+    function removeItem(type, idx) {
+      const arr = getList(type);
+      arr.splice(idx, 1);
+      saveList(type, arr);
+      renderList(type);
+    }
+    function editItem(type, idx, value) {
+      const arr = getList(type);
+      arr[idx] = value;
+      saveList(type, arr);
+      renderList(type);
+    }
+    // Initial render
+    ['movies', 'shows', 'books'].forEach(renderList);
+  </script>
+</body>
+</html>
