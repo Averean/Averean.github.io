@@ -230,12 +230,12 @@
 
 // ...existing code...
     function addItem(type) {
-    // Use singular for input IDs
     const inputId = type === 'movies' ? 'movieInput' : type === 'shows' ? 'showInput' : 'bookInput';
     const input = document.getElementById(inputId);
     if (!input) return;
     const value = input.value.trim();
     if (!value) return;
+    console.log('Adding', value, 'to', type); // <-- Add this line
     db.ref(listPath(type)).once('value').then(snapshot => {
         const arr = snapshot.val() || [];
         arr.push(value);
