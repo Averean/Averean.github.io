@@ -236,7 +236,10 @@
       db.ref(listPath(type)).once('value').then(snapshot => {
         const arr = snapshot.val() || [];
         arr.push(value);
-        db.ref(listPath(type)).set(arr);
+        db.ref(listPath(type)).set(arr).then(() => {
+          // Immediately update UI after adding
+          renderList(type, arr);
+        });
         input.value = '';
         input.focus();
       });
