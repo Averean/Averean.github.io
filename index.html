@@ -271,22 +271,25 @@
       z-index: 3000;
       left: 0; top: 0;
       width: 100vw; height: 100vh;
-      background: rgba(214,51,132,0.10); /* Softer pink overlay */
+      background: rgba(214,51,132,0.10);
       align-items: center;
       justify-content: center;
       backdrop-filter: blur(2px);
+      overflow: hidden; /* Prevent scroll bar */
     }
     #questionModal .modal-content {
       background: linear-gradient(135deg, #fff0f5 80%, #ffe3f0 100%);
       border-radius: 20px;
-      padding: 54px 48px 40px 48px; /* Increased padding */
+      padding: 54px 48px 40px 48px;
       box-shadow: 0 8px 32px rgba(214,51,132,0.18);
       text-align: center;
       max-width: 98vw;
-      width: 440px; /* Increased width */
+      width: 440px;
       position: relative;
       border: 2px solid #d63384;
       animation: fadeIn 0.7s;
+      max-height: 90vh; /* Prevent modal from overflowing vertically */
+      overflow-y: auto;  /* Allow scroll inside modal if content is too tall */
     }
     #questionModal .modal-content h4 {
       color: #d63384;
