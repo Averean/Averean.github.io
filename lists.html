@@ -101,6 +101,21 @@
       font-size: 0.95em;
       margin-left: 2px;
     }
+    .current-list-label {
+      color: #b0256a;
+      font-size: 0.98em;
+      margin: 10px 0 2px 0;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      display: block;
+    }
+    .current-list-items {
+      color: #444;
+      font-size: 1em;
+      margin-bottom: 10px;
+      min-height: 1.2em;
+      word-break: break-word;
+    }
     .back-btn {
       margin-top: 24px;
       background: #d63384;
@@ -134,6 +149,8 @@
         <button onclick="addItem('movies')">Add</button>
       </div>
       <ul class="editable-list" id="moviesList"></ul>
+      <span class="current-list-label">Current List:</span>
+      <div class="current-list-items" id="moviesCurrent"></div>
     </div>
     <div class="list-section" id="shows-section">
       <h3>📺 Shows</h3>
@@ -142,6 +159,8 @@
         <button onclick="addItem('shows')">Add</button>
       </div>
       <ul class="editable-list" id="showsList"></ul>
+      <span class="current-list-label">Current List:</span>
+      <div class="current-list-items" id="showsCurrent"></div>
     </div>
     <div class="list-section" id="books-section">
       <h3>📚 Books</h3>
@@ -150,6 +169,8 @@
         <button onclick="addItem('books')">Add</button>
       </div>
       <ul class="editable-list" id="booksList"></ul>
+      <span class="current-list-label">Current List:</span>
+      <div class="current-list-items" id="booksCurrent"></div>
     </div>
     <button class="back-btn" onclick="window.location.href='index.html'">Back to Home</button>
   </div>
@@ -192,6 +213,9 @@
         li.appendChild(removeBtn);
         ul.appendChild(li);
       });
+      // Show current list below
+      const currentDiv = document.getElementById(type + 'Current');
+      currentDiv.textContent = arr.length ? arr.join(', ') : 'No items yet!';
     }
     function addItem(type) {
       const input = document.getElementById(type + 'Input');
