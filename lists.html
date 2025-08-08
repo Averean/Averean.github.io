@@ -174,28 +174,38 @@
     </div>
     <button class="back-btn" onclick="window.location.href='index.html'">Back to Home</button>
   </div>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <script>
-    // Simple localStorage keys
-    const keys = {
-      movies: 'ourlist_movies',
-      shows: 'ourlist_shows',
-      books: 'ourlist_books'
+    // --- Firebase Config (replace with your own config) ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyDt7QlnO6r4j2WdrPEmEeNfSJD0RrQ_l7U",
+      authDomain: "lists-for-gf.firebaseapp.com",
+      databaseURL: "https://lists-for-gf-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "lists-for-gf",
+      storageBucket: "lists-for-gf.firebasestorage.app",
+      messagingSenderId: "1041006373055",
+      appId: "1:1041006373055:web:1556eeb134cf2283ddbe0a"
     };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-    function getList(type) {
-      try {
-        return JSON.parse(localStorage.getItem(keys[type])) || [];
-      } catch {
-        return [];
-      }
+    // Helper for list paths
+    function listPath(type) {
+      return 'lists/' + type;
     }
-    function saveList(type, arr) {
-      localStorage.setItem(keys[type], JSON.stringify(arr));
+
+    // Listen for changes and render
+    function listenList(type) {
+      db.ref(listPath(type)).on('value', snapshot => {
+        const arr = snapshot.val() || [];
+        renderList(type, arr);
+      });
     }
-    function renderList(type) {
+
+    function renderList(type, arr) {
       const ul = document.getElementById(type + 'List');
       ul.innerHTML = '';
-      const arr = getList(type);
       arr.forEach((item, idx) => {
         const li = document.createElement('li');
         const input = document.createElement('input');
@@ -217,32 +227,39 @@
       const currentDiv = document.getElementById(type + 'Current');
       currentDiv.textContent = arr.length ? arr.join(', ') : 'No items yet!';
     }
+
     function addItem(type) {
       const input = document.getElementById(type + 'Input');
       if (!input) return;
       const value = input.value.trim();
       if (!value) return;
-      const arr = getList(type);
-      arr.push(value);
-      saveList(type, arr);
-      input.value = '';
-      renderList(type);
-      input.focus();
+      db.ref(listPath(type)).once('value').then(snapshot => {
+        const arr = snapshot.val() || [];
+        arr.push(value);
+        db.ref(listPath(type)).set(arr);
+        input.value = '';
+        input.focus();
+      });
     }
+
     function removeItem(type, idx) {
-      const arr = getList(type);
-      arr.splice(idx, 1);
-      saveList(type, arr);
-      renderList(type);
+      db.ref(listPath(type)).once('value').then(snapshot => {
+        const arr = snapshot.val() || [];
+        arr.splice(idx, 1);
+        db.ref(listPath(type)).set(arr);
+      });
     }
+
     function editItem(type, idx, value) {
-      const arr = getList(type);
-      arr[idx] = value;
-      saveList(type, arr);
-      renderList(type);
+      db.ref(listPath(type)).once('value').then(snapshot => {
+        const arr = snapshot.val() || [];
+        arr[idx] = value;
+        db.ref(listPath(type)).set(arr);
+      });
     }
-    // Initial render
-    ['movies', 'shows', 'books'].forEach(renderList);
+
+    // Listen for all lists
+    ['movies', 'shows', 'books'].forEach(listenList);
   </script>
 </body>
 </html>
