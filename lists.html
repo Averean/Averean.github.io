@@ -233,6 +233,7 @@
     const inputId = type === 'movies' ? 'movieInput' : type === 'shows' ? 'showInput' : 'bookInput';
     const input = document.getElementById(inputId);
     if (!input) return;
+    console.log('empty data');
     const value = input.value.trim();
     if (!value) return;
     console.log('Adding', value, 'to', type); // <-- Add this line
@@ -245,6 +246,7 @@
         });
     });
     }
+
 // ...existing code...
 
     function removeItem(type, idx) {
