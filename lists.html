@@ -145,8 +145,8 @@
     <div class="list-section" id="movies-section">
       <h3>🎬 Movies</h3>
       <div class="add-item-row">
-        <input type="text" id="movieInput" placeholder="Add a movie..." />
-        <button onclick="addItem('movies')">Add</button>
+        <input type="text" id="movieInput" placeholder="Add a movie..." onkeydown="if(event.key==='Enter'){addItem('movies');}" />
+        <button type="button" onclick="addItem('movies')">Add</button>
       </div>
       <ul class="editable-list" id="moviesList"></ul>
       <span class="current-list-label">Current List:</span>
@@ -155,8 +155,8 @@
     <div class="list-section" id="shows-section">
       <h3>📺 Shows</h3>
       <div class="add-item-row">
-        <input type="text" id="showInput" placeholder="Add a show..." />
-        <button onclick="addItem('shows')">Add</button>
+        <input type="text" id="showInput" placeholder="Add a show..." onkeydown="if(event.key==='Enter'){addItem('shows');}" />
+        <button type="button" onclick="addItem('shows')">Add</button>
       </div>
       <ul class="editable-list" id="showsList"></ul>
       <span class="current-list-label">Current List:</span>
@@ -165,8 +165,8 @@
     <div class="list-section" id="books-section">
       <h3>📚 Books</h3>
       <div class="add-item-row">
-        <input type="text" id="bookInput" placeholder="Add a book..." />
-        <button onclick="addItem('books')">Add</button>
+        <input type="text" id="bookInput" placeholder="Add a book..." onkeydown="if(event.key==='Enter'){addItem('books');}" />
+        <button type="button" onclick="addItem('books')">Add</button>
       </div>
       <ul class="editable-list" id="booksList"></ul>
       <span class="current-list-label">Current List:</span>
@@ -219,6 +219,7 @@
     }
     function addItem(type) {
       const input = document.getElementById(type + 'Input');
+      if (!input) return;
       const value = input.value.trim();
       if (!value) return;
       const arr = getList(type);
@@ -226,6 +227,7 @@
       saveList(type, arr);
       input.value = '';
       renderList(type);
+      input.focus();
     }
     function removeItem(type, idx) {
       const arr = getList(type);
