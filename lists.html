@@ -197,11 +197,11 @@
 
     // Listen for changes and render
     function listenList(type) {
-      db.ref(listPath(type)).on('value', snapshot => {
-        const arr = snapshot.val() || [];
-        renderList(type, arr);
-      });
-    }
+  db.ref(listPath(type)).on('value', snapshot => {
+    const arr = snapshot.val() || [];
+    renderList(type, arr);
+  });
+}
 
     function renderList(type, arr) {
       const ul = document.getElementById(type + 'List');
