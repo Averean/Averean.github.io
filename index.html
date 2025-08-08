@@ -214,95 +214,55 @@
       animation: pulse 1.5s infinite;
     }
 
-    .continue-btn-container {
+    .dropdown-nav {
       position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      /* background: linear-gradient(to top, #fff0f5 80%, rgba(255,255,255,0)); */ /* Remove background */
-      background: none; /* No background */
-      display: flex;
-      justify-content: center;
-      padding: 24px 0 16px 0;
-      z-index: 1200;
+      top: 24px;
+      right: 32px;
+      z-index: 1500;
+      user-select: none;
     }
-    .continue-btn {
+    .dropdown-btn {
       background: #d63384;
       color: #fff;
       border: none;
-      border-radius: 30px;
-      font-size: 1.3em;
-      padding: 16px 40px;
+      border-radius: 8px;
+      font-size: 1.1em;
+      padding: 10px 22px;
       font-weight: bold;
       cursor: pointer;
       box-shadow: 0 2px 12px rgba(214,51,132,0.13);
       transition: background 0.2s;
       outline: none;
     }
-    .continue-btn:hover {
+    .dropdown-btn:hover {
       background: #b0256a;
     }
-    /* Question Modal */
-    #questionModal {
+    .dropdown-content {
       display: none;
-      position: fixed;
-      z-index: 3000;
-      left: 0; top: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.5);
-      align-items: center;
-      justify-content: center;
-    }
-    #questionModal .modal-content {
-      background: #fff;
-      border-radius: 16px;
-      padding: 36px 32px 28px 32px;
-      box-shadow: 0 4px 24px rgba(214,51,132,0.13);
-      text-align: center;
-      max-width: 90vw;
-      width: 350px;
-      position: relative;
-    }
-    #questionModal input[type="text"] {
-      width: 80%;
-      padding: 10px;
-      margin: 18px 0 12px 0;
-      border-radius: 8px;
-      border: 1px solid #d63384;
-      font-size: 1em;
-      outline: none;
-    }
-    #questionModal .submit-btn {
-      background: #d63384;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 1em;
-      padding: 10px 24px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 8px;
-      transition: background 0.2s;
-    }
-    #questionModal .submit-btn:hover {
-      background: #b0256a;
-    }
-    #questionModal .close {
       position: absolute;
-      top: 10px; right: 18px;
-      font-size: 1.3em;
-      color: #888;
-      cursor: pointer;
-    }
-    #questionModal .error-msg {
-      color: #d63384;
-      font-size: 1em;
+      right: 0;
       margin-top: 6px;
-      min-height: 1.2em;
-    }
-    body.question-modal-open {
+      background: #fff;
+      min-width: 180px;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(214,51,132,0.13);
       overflow: hidden;
+      z-index: 1600;
+      text-align: left;
+    }
+    .dropdown-content button {
+      width: 100%;
+      background: none;
+      border: none;
+      color: #d63384;
+      padding: 14px 20px;
+      font-size: 1em;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .dropdown-content button:hover {
+      background: #fff0f5;
     }
   </style>
 </head>
@@ -394,9 +354,13 @@
     </div>
   </div>
 
-  <!-- Continue Button Fixed at Bottom -->
-  <div class="continue-btn-container">
-    <button class="continue-btn" onclick="showQuestionModal()">Continue Here</button>
+  <!-- Dropdown Navigation -->
+  <div class="dropdown-nav">
+    <button class="dropdown-btn" onclick="toggleDropdown()">☰ Menu</button>
+    <div class="dropdown-content" id="dropdownContent">
+      <button onclick="window.location.href='index.html'">Home</button>
+      <button onclick="showQuestionModal()">Heartfelt Message</button>
+    </div>
   </div>
 
   <!-- Question Modal -->
@@ -445,6 +409,20 @@
     music.currentTime = 0;
   }
 
+  // Dropdown menu logic
+  function toggleDropdown() {
+    const menu = document.getElementById('dropdownContent');
+    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+  }
+  // Hide dropdown when clicking outside
+  document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('dropdownContent');
+    const btn = document.querySelector('.dropdown-btn');
+    if (dropdown && btn && !dropdown.contains(event.target) && !btn.contains(event.target)) {
+      dropdown.style.display = 'none';
+    }
+  });
+
   // Question Modal Logic
   function showQuestionModal() {
     document.getElementById('questionModal').style.display = 'flex';
@@ -454,6 +432,8 @@
     setTimeout(() => {
       document.getElementById('answerInput').focus();
     }, 100);
+    // Hide dropdown if open
+    document.getElementById('dropdownContent').style.display = 'none';
   }
   function hideQuestionModal() {
     document.getElementById('questionModal').style.display = 'none';
