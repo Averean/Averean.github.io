@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For My Love</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #fff0f5, #e093b2);
+      color: #d63384;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .heartfelt-container {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(214,51,132,0.10);
+      padding: 48px 32px 40px 32px;
+      max-width: 520px;
+      margin: 40px 16px;
+      text-align: center;
+      animation: fadeIn 1.2s;
+    }
+    .big-heart {
+      font-size: 4em;
+      margin-bottom: 18px;
+      animation: pulse 1.5s infinite;
+      display: block;
+    }
+    h2 {
+      color: #d63384;
+      margin-bottom: 18px;
+      font-size: 2.2em;
+    }
+    p {
+      color: #444;
+      font-size: 1.25em;
+      margin-bottom: 0;
+      line-height: 1.7;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1);}
+      50% { transform: scale(1.2);}
+      100% { transform: scale(1);}
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .back-btn {
+      margin-top: 36px;
+      background: #d63384;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1em;
+      padding: 12px 32px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 12px rgba(214,51,132,0.13);
+      transition: background 0.2s;
+      outline: none;
+    }
+    .back-btn:hover {
+      background: #b0256a;
+    }
+  </style>
+</head>
+<body>
+  <div class="heartfelt-container">
+    <span class="big-heart">💖</span>
+    <h2>For My Forever Person</h2>
+    <p>
+      I'm Falling more and more in love with you everyday. I find myself constantly thinking about you, like "Gosh im so luckyy" <br>
+      I don't know how to tell you how much I love you. The words in this language aren't beautiful enough nor are there enough to describe how absolutely beautiful and stunning you are. <br>
+      Dimpu, i just wanna kiss you to my hearts content, I want to hold you close and make you feel like you're the only girl in the world. <br>
+      <b>Forever yours,<br>Yash</b>
+    </p>
+    <button class="back-btn" onclick="window.location.href='index.html'">Back to Home</button>
+  </div>
+</body>
+</html>
