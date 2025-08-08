@@ -264,6 +264,98 @@
     .dropdown-content button:hover {
       background: #fff0f5;
     }
+
+    #questionModal {
+      display: none;
+      position: fixed;
+      z-index: 3000;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(214,51,132,0.10); /* Softer pink overlay */
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(2px);
+    }
+    #questionModal .modal-content {
+      background: linear-gradient(135deg, #fff0f5 80%, #ffe3f0 100%);
+      border-radius: 20px;
+      padding: 44px 36px 32px 36px;
+      box-shadow: 0 8px 32px rgba(214,51,132,0.18);
+      text-align: center;
+      max-width: 92vw;
+      width: 370px;
+      position: relative;
+      border: 2px solid #d63384;
+      animation: fadeIn 0.7s;
+    }
+    #questionModal .modal-content h4 {
+      color: #d63384;
+      margin: 0 0 10px 0;
+      font-size: 1.3em;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+    #questionModal .modal-content .question-emoji {
+      font-size: 2.2em;
+      margin-bottom: 8px;
+      display: block;
+      animation: pulse 1.5s infinite;
+    }
+    #questionModal input[type="text"] {
+      width: 90%;
+      padding: 12px;
+      margin: 18px 0 12px 0;
+      border-radius: 10px;
+      border: 1.5px solid #d63384;
+      font-size: 1.1em;
+      outline: none;
+      background: #fff;
+      transition: border 0.2s;
+      text-align: center;
+    }
+    #questionModal input[type="text"]:focus {
+      border: 2px solid #b0256a;
+      background: #fff8fc;
+    }
+    #questionModal .submit-btn {
+      background: #d63384;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1em;
+      padding: 12px 32px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 12px rgba(214,51,132,0.10);
+    }
+    #questionModal .submit-btn:hover {
+      background: #b0256a;
+      box-shadow: 0 4px 18px rgba(214,51,132,0.18);
+    }
+    #questionModal .close {
+      position: absolute;
+      top: 12px; right: 20px;
+      font-size: 1.5em;
+      color: #d63384;
+      cursor: pointer;
+      background: none;
+      border: none;
+      transition: color 0.2s;
+    }
+    #questionModal .close:hover {
+      color: #b0256a;
+    }
+    #questionModal .error-msg {
+      color: #d63384;
+      font-size: 1em;
+      margin-top: 10px;
+      min-height: 1.2em;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+    /* ...existing code... */
   </style>
 </head>
 <body>
@@ -366,9 +458,12 @@
   <!-- Question Modal -->
   <div id="questionModal">
     <div class="modal-content">
-      <span class="close" onclick="hideQuestionModal()">&times;</span>
-      <div style="font-size:1.2em;font-weight:bold;color:#d63384;">Answer this to continue:</div>
-      <div style="margin-top:12px;">What's my comfort food?</div>
+      <button class="close" onclick="hideQuestionModal()" aria-label="Close">&times;</button>
+      <span class="question-emoji">🍟</span>
+      <h4>Answer this to continue to Chapter 2</h4>
+      <div style="margin: 10px 0 18px 0; color:#b0256a; font-size:1.08em;">
+        What's my comfort food?
+      </div>
       <input type="text" id="answerInput" placeholder="Type your answer..." autocomplete="off" />
       <br>
       <button class="submit-btn" onclick="checkAnswer()">Submit</button>
